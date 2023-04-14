@@ -140,6 +140,27 @@ body {
     margin: auto;
     font-family: 'Work Sans';
     font-size: 14px;
+    overflow-x: hidden;
+}
+
+#editionMode {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: white;
+    padding: 10px;
+}
+
+#editionMode button {
+    background-color: white;
+    padding: 5px 10px;
+    border: none;
+    color: black;
+    font-weight: 400;
+    font-family: 'Work Sans';
+    flex-basis: 200px;
 }
 
 header {
@@ -247,6 +268,104 @@ li:hover {
 #edit p {
     cursor: pointer;
 }
+
+/* Création de la modale */
+#modale-container {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+#modale-container.active {
+    display: block;
+}
+
+#modale-overlay {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: -5;
+}
+
+#modale-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 30%;
+    z-index: 30;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#modale-content h2 {
+    font-size: 1.3em;
+    color: black;
+    font-family: "Syne";
+}
+
+#modale-content button {
+    background-color: #1D6154;
+    color: white;
+    cursor: pointer;
+}
+
+#modale-content #hr {
+    height: 2px;
+    width: 70%;
+    background-color: rgba(0, 0, 0, 0.404);
+    display: block;
+}
+
+#modale-content #delete-text {
+    color: #D65353;
+}
+
+#modale-content #arrow {
+    color: black;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "Syne";
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 10px;
+}
+
+#modale-content #list-works {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 70%;
+}
+
+#modale-content #list-works img {
+    width: 100%;
+    cursor: pointer;
+}
+
 
 .gallery {
     width: 100%;

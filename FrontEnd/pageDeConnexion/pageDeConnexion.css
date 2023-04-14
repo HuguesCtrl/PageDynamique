@@ -108,6 +108,16 @@ li:hover {
     text-decoration: underline;
 }
 
+#messageForm {
+    display: none;
+}
+
+#messageForm.active {
+    display: block;
+    color: red;
+    margin-bottom: 0;
+}
+
 input[type="submit"] {
     font-family: 'Syne';
     font-weight: 700;
@@ -118,6 +128,7 @@ input[type="submit"] {
     text-align: center;
     border-radius: 60px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 

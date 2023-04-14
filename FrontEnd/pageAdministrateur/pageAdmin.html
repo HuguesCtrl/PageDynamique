@@ -15,17 +15,33 @@
 </head>
 
 <body>
+    <div id="editionMode">
+        <p><i class="fa-regular fa-pen-to-square"></i> Mode edition</p>
+        <button>publier les changements</button>
+    </div>
     <header>
         <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
         <nav>
             <ul>
                 <li>projets</li>
                 <li>contact</li>
-                <li><a href="/FrontEnd/pageDeConnexion/pageDeConnexion.html" target="_blank">logout</a></li>
+                <li><a href="/FrontEnd/pageVisiteur/index.html" target="_blank" id="logout">logout</a></li>
                 <li><img src="/FrontEnd/assets/icons/instagram.png" alt="Instagram" width="20px"></li>
             </ul>
         </nav>
     </header>
+    <div id="modale-container">
+        <div id="modale-overlay" class="modale-remove">
+        </div>
+        <div id="modale-content">
+            <h2>Galerie photo</h2>
+            <span id="arrow" class="modale-remove">X</span>
+            <div id="list-works"></div>
+            <div id="hr"></div>
+            <button id="AddWork">Ajouter une photo</button>
+            <p id="delete-text">Supprimer la galerie</p>
+        </div>
+    </div>
     <main>
         <section id="introduction">
             <figure>
@@ -45,7 +61,7 @@
         <section id="portfolio">
             <div id="edit">
                 <h2>Mes Projets</h2>
-                <p id="edit-gallery">
+                <p id="edit-gallery" class="modale-trigger">
                     <i class="fa-regular fa-pen-to-square"></i> Modifier
                 </p>
             </div>

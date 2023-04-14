@@ -75,7 +75,6 @@ let categorieAppartements = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Appartements"
 );
 //Renvois la catégorie Hotel & restaurants
-console.log(categorieAppartements);
 let categorieHotelsRestaurants = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Hotels & restaurants"
 );

@@ -1,18 +1,23 @@
+// Selection de la section qui contient tous les travaux
 let galleryWork = document.querySelector(".gallery");
 console.log(galleryWork);
 let h2Projects = document.querySelector("#portfolio h2");
 console.log(h2Projects);
-//Création d'un tableau intitulé works qui récupère tous les travaux
+//Création d'un tableau intitulé works qui récupère tous les travaux de l'Api
 let works = [];
-//Allez rechercher les travaux de la gallerie via l'API
-async function getWorks() {
+//Allez rechercher les travaux de la gallerie via l'API et les stocker dans localStorage
+let localWorks = localStorage.getItem("works");
+if (localWorks === null) {
   let appel = await fetch("http://localhost:5678/api/works");
   let response = await appel.json();
-  works = response;
+  let responseString = JSON.stringify(response);
+  localStorage.setItem("works", responseString);
+} else {
+  localWorks = JSON.parse(localWorks);
+  works = localWorks;
 }
-await getWorks();
-console.log(works);
 
+//Fonction qui génère l'affichage de la gallerie
 function displayWorks(filtreCategorie) {
   for (let i = 0; i < filtreCategorie.length; i++) {
     let newFigure = document.createElement("figure");
@@ -25,19 +30,23 @@ function displayWorks(filtreCategorie) {
     galleryWork.append(newFigure);
   }
 }
+//Appel par défaut qui permet au chargement de la page d'afficher tous les travaux
 displayWorks(works);
 
+//Création d'un tableau intitulé categories qui récupère toutes les catégories des travaux
 let categories = [];
-
-async function getCategories() {
+//Récupération de toutes les catégories de l'API que l'on stocke dans le LocalStorage
+let worksCategories = localStorage.getItem("categories");
+if (worksCategories === null) {
   let appel = await fetch("http://localhost:5678/api/categories");
   let response = await appel.json();
-  categories = response;
+  let responseString = JSON.stringify(response);
+  localStorage.setItem("categories", responseString);
+} else {
+  worksCategories = JSON.parse(worksCategories);
+  categories = worksCategories;
 }
-//Création d'un tableau intitulé categories qui récupère toutes les catégories
-await getCategories();
-console.log(categories);
-
+//Création des différents boutons de la gallerie via le Javascript
 function createButton() {
   let divButton = document.createElement("div");
   divButton.setAttribute("class", "divButton");
@@ -53,54 +62,58 @@ function createButton() {
   }
   h2Projects.insertAdjacentElement("afterend", divButton);
 }
+//Appel à la fonction
 createButton();
 
 //Création des filtres selon les différentes catégories des travaux
-
+//Renvois la catégorie Objet
 let categorieObjets = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Objets"
 );
+//Renvois la catégorie Appartement
 let categorieAppartements = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Appartements"
 );
+//Renvois la catégorie Hotel & restaurants
 console.log(categorieAppartements);
 let categorieHotelsRestaurants = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Hotels & restaurants"
 );
-
+//Récupération de tous les boutons créé via le DOM
 let buttonTout = document.querySelector("#Bouton0");
 buttonTout.classList.add("active");
 let buttonObjets = document.querySelector("#Bouton1");
 let buttonAppartements = document.querySelector("#Bouton2");
 let buttonHotelsRestaurants = document.querySelector("#Bouton3");
-
+//Affichage de tous les travaux
 buttonTout.addEventListener("click", async function () {
   galleryWork.innerHTML = "";
   displayWorks(works);
   allChildRemoveActive();
   this.classList.add("active");
 });
-
+//Affichage de tous les travaux de la catégorie Appartement
 buttonAppartements.addEventListener("click", function () {
   galleryWork.innerHTML = "";
   displayWorks(categorieAppartements);
   allChildRemoveActive();
   this.classList.add("active");
 });
-
+//Affichage de tous les travaux de la catégorie Objet
 buttonObjets.addEventListener("click", function () {
   galleryWork.innerHTML = "";
   displayWorks(categorieObjets);
   allChildRemoveActive();
   this.classList.add("active");
 });
+//Affichage de tous les travaux de la catégorie Hotels et Restaurants
 buttonHotelsRestaurants.addEventListener("click", function () {
   galleryWork.innerHTML = "";
   displayWorks(categorieHotelsRestaurants);
   allChildRemoveActive();
   this.classList.add("active");
 });
-//Fonction servant à afficher en vert la catégorie sélectionnée
+//Fonction servant à afficher en vert la catégorie sélectionnée et à retirer le vert sur les autres boutons
 function allChildRemoveActive() {
   let tousLesBoutons = document.querySelectorAll(".divButton button");
   tousLesBoutons.forEach((boutons) => boutons.classList.remove("active"));

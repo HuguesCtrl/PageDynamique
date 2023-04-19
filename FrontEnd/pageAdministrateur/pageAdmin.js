@@ -2,9 +2,8 @@
 let galleryWork = document.querySelector(".gallery");
 
 let works = [];
-//Allez rechercher les travaux de la gallerie via le localStorage et les stocker dans le tableau
-let localWorks = localStorage.getItem("works");
-works = JSON.parse(localWorks);
+//Allez rechercher les travaux depuis l'API
+works = JSON.parse(localStorage.getItem("works"));
 
 //Fonction qui génère l'affichage de la gallerie
 function displayWorks(filtreCategorie) {
@@ -42,7 +41,6 @@ modalRemove.forEach((remove) =>
 );
 //Ferme la modale avec la touche echap
 window.document.addEventListener("keydown", function (e) {
-  console.log(e);
   if (e.key === "Escape") {
     modal.classList.remove("active");
   }
@@ -53,7 +51,7 @@ let listPicturesModal = document.querySelector("#list-works");
 function displayPictures() {
   for (let i = 0; i < works.length; i++) {
     let newDiv = document.createElement("div");
-    newDiv.style.width = "20%";
+    newDiv.style.width = "18%";
     newDiv.setAttribute("class", "imgContainer");
     let newImg = document.createElement("img");
     newImg.setAttribute("class", "imgWorks");
@@ -71,7 +69,6 @@ displayPictures();
 //Fonction qui permet d'afficher les icones en position absolute
 function displayIcon() {
   let divImgAll = document.querySelectorAll(".imgContainer");
-  console.log(divImgAll);
   for (let i = 0; i < divImgAll.length; i++) {
     divImgAll[i].style.position = "relative";
     let trash = document.createElement("div");
@@ -100,9 +97,9 @@ function removeWork() {
   let trashAll = document.querySelectorAll(".trashStyle");
   let divImgAll = document.querySelectorAll(".imgContainer");
   let imgGalleryAll = document.querySelectorAll(".gallery figure");
-  console.log(imgGalleryAll);
   for (let i = 0; i < trashAll.length; i++) {
-    trashAll[i].addEventListener("click", function () {
+    trashAll[i].addEventListener("click", function (e) {
+      e.preventDefault();
       let authentificationToken = JSON.parse(
         localStorage.getItem("authentification")
       ).token;
@@ -120,3 +117,50 @@ function removeWork() {
   }
 }
 removeWork();
+
+//Recuperation de la fleche precedente pour la navigation dans la modale
+let arrowBack = document.querySelector("#back");
+let modalContainer = document.querySelector("#modale-content-container");
+let modal1 = document.querySelector("#modale-content");
+modal1.classList.add("visible");
+let modal2 = document.querySelector("#modale-content-2");
+let addWork = document.querySelector("#AddWork");
+
+arrowBack.addEventListener("click", function () {
+  modal2.classList.remove("visible");
+  modal1.classList.add("visible");
+});
+addWork.addEventListener("click", function () {
+  modal1.classList.remove("visible");
+  modal2.classList.add("visible");
+});
+
+//Requete POST
+let formSendWork = document.querySelector("#addWorkForm");
+
+formSendWork.addEventListener("submit", function (e) {
+  e.preventDefault();
+  let inputFile = document.querySelector("#file");
+  let inputText = document.querySelector("#titrePicture");
+  let inputCategorie = document.querySelector("#categorie");
+  //Token pour s'identifier
+  let authentificationToken = JSON.parse(
+    localStorage.getItem("authentification")
+  ).token;
+  //Recuperation de tous les travaux
+  let allWorks = JSON.parse(localStorage.getItem("works"));
+  console.log(allWorks);
+  let options = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${authentificationToken}`,
+    },
+    body: JSON.stringify(allWorks),
+  };
+  fetch("http://localhost:5678/api/works", options).then((res) => {
+    if (res.ok) {
+      console.log("ok");
+    }
+  });
+});

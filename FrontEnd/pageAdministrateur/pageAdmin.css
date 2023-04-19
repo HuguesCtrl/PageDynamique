@@ -297,29 +297,101 @@ li:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
-    padding: 30px;
     border-radius: 15px;
     width: 30%;
-    z-index: 30;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 
+/* Stylisation du modal 1 (suppression travail) */
+
 #modale-content {
+    background-color: #fff;
+    z-index: 50;
+    visibility: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    opacity: 0;
+    padding: 30px;
+    border-radius: 20px;
+    padding: 20px;
 }
 
+#modale-content.visible {
+    visibility: visible;
+}
+
+#modale-content h2 {
+    font-size: 1.3em;
+    color: black;
+    font-family: "Work Sans";
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 1.6em;
+    margin-bottom: 20px;
+}
+
+#modale-content button {
+    background-color: #1D6154;
+    color: white;
+    cursor: pointer;
+    width: 45%;
+    transition: none;
+}
+
+#modale-content #hr {
+    height: 1px;
+    width: 70%;
+    background-color: rgba(0, 0, 0, 0.404);
+    display: block;
+}
+
+#modale-content #delete-text {
+    color: #D65353;
+}
+
+#modale-content #cross {
+    color: black;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "Syne";
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 10px;
+    font-size: 1.4em;
+}
+
+#modale-content #list-works {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 85%;
+}
+
+#modale-content #list-works img {
+    width: 100%;
+    cursor: pointer;
+}
+
+
+/* Stylisation du modal2 (upload image) */
+
 #modale-content-2 {
+    padding: 30px;
+    background-color: #fff;
+    visibility: hidden;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -332,13 +404,21 @@ li:hover {
     font-family: "Work Sans";
     margin: 0 auto;
     width: 100%;
-    height: 100%;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    z-index: 50;
+    border-radius: 20px;
+}
+
+#modale-content-2.visible {
+    visibility: visible;
 }
 
 #modale-content-2 h2 {
     font-family: "Work Sans";
     color: black;
-    margin-top: 80px;
+    margin-top: 40px;
     margin-bottom: 10px;
     font-weight: 400;
     font-size: 1.7em;
@@ -444,62 +524,8 @@ li:hover {
     border: none;
     width: 50%;
     cursor: pointer;
+    transition: none;
 }
-
-
-#modale-content h2 {
-    font-size: 1.3em;
-    color: black;
-    font-family: "Syne";
-}
-
-#modale-content button {
-    background-color: #1D6154;
-    color: white;
-    cursor: pointer;
-}
-
-#modale-content #hr {
-    height: 1px;
-    width: 70%;
-    background-color: rgba(0, 0, 0, 0.404);
-    display: block;
-}
-
-#modale-content #delete-text {
-    color: #D65353;
-}
-
-#modale-content #cross {
-    color: black;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: "Syne";
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    padding: 10px;
-    font-size: 1em;
-}
-
-#modale-content #list-works {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    width: 85%;
-}
-
-#modale-content #list-works img {
-    width: 100%;
-    cursor: pointer;
-}
-
-
 
 .gallery {
     width: 100%;

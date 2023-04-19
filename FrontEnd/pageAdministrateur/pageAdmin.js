@@ -1,6 +1,5 @@
 // Selection de la section qui contient tous les travaux
 let galleryWork = document.querySelector(".gallery");
-console.log(galleryWork);
 
 let works = [];
 //Allez rechercher les travaux de la gallerie via le localStorage et les stocker dans le tableau
@@ -50,12 +49,14 @@ window.document.addEventListener("keydown", function (e) {
 });
 //Recupère la liste de la modale
 let listPicturesModal = document.querySelector("#list-works");
-
+//Fonction qui permet d'afficher les images dans la div de la modale
 function displayPictures() {
   for (let i = 0; i < works.length; i++) {
     let newDiv = document.createElement("div");
     newDiv.style.width = "20%";
+    newDiv.setAttribute("class", "imgContainer");
     let newImg = document.createElement("img");
+    newImg.setAttribute("class", "imgWorks");
     newImg.src = `${works[i].imageUrl}`;
     let newPara = document.createElement("p");
     newPara.innerText = "éditer";
@@ -66,3 +67,56 @@ function displayPictures() {
   }
 }
 displayPictures();
+
+//Fonction qui permet d'afficher les icones en position absolute
+function displayIcon() {
+  let divImgAll = document.querySelectorAll(".imgContainer");
+  console.log(divImgAll);
+  for (let i = 0; i < divImgAll.length; i++) {
+    divImgAll[i].style.position = "relative";
+    let trash = document.createElement("div");
+    trash.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+    trash.classList.add("trashStyle");
+    divImgAll[i].append(trash);
+  }
+  for (let i = 0; i < divImgAll.length; i++) {
+    let move;
+    divImgAll[i].addEventListener("mouseenter", function () {
+      divImgAll[i].style.position = "relative";
+      move = document.createElement("div");
+      move.innerHTML = `<i class="fa-solid fa-arrows-up-down-left-right"></i>`;
+      move.classList.add("moveStyle");
+      divImgAll[i].append(move);
+    });
+    divImgAll[i].addEventListener("mouseleave", function () {
+      move.style.display = "none";
+    });
+  }
+}
+displayIcon();
+
+//Function qui permet de supprimer un travail
+function removeWork() {
+  let trashAll = document.querySelectorAll(".trashStyle");
+  let divImgAll = document.querySelectorAll(".imgContainer");
+  let imgGalleryAll = document.querySelectorAll(".gallery figure");
+  console.log(imgGalleryAll);
+  for (let i = 0; i < trashAll.length; i++) {
+    trashAll[i].addEventListener("click", function () {
+      let authentificationToken = JSON.parse(
+        localStorage.getItem("authentification")
+      ).token;
+      let options = {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${authentificationToken}`,
+        },
+      };
+      fetch(`http://localhost:5678/api/works/${i}`, options)
+        .then(divImgAll[i].remove())
+        .then(imgGalleryAll[i].remove());
+    });
+  }
+}
+removeWork();

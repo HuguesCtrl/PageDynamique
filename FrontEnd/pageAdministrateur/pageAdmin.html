@@ -33,13 +33,45 @@
     <div id="modale-container">
         <div id="modale-overlay" class="modale-remove">
         </div>
-        <div id="modale-content">
-            <h2>Galerie photo</h2>
-            <span id="arrow" class="modale-remove">X</span>
-            <div id="list-works"></div>
-            <div id="hr"></div>
-            <button id="AddWork">Ajouter une photo</button>
-            <p id="delete-text">Supprimer la galerie</p>
+        <div id="modale-content-container">
+            <!-- Modale pour retirer les photos -->
+            <div id="modale-content">
+                <h2>Galerie photo</h2>
+                <span id="cross" class="modale-remove"><i class="fa-solid fa-circle-xmark"></i></span>
+                <div id="list-works"></div>
+                <div id="hr"></div>
+                <button id="AddWork">Ajouter une photo</button>
+                <p id="delete-text">Supprimer la galerie</p>
+            </div>
+            <div id="modale-content-2">
+                <h2>Ajout photo</h2>
+                <span id="cross2" class="modale-remove"><i class="fa-solid fa-circle-xmark"></i></span>
+                <span id="back"><i class="fa-solid fa-arrow-left"></i></span>
+                <form action="">
+                    <div id="fileContainer">
+                        <span><i class="fa-regular fa-image"></i></span>
+                        <label for="file">+ Ajouter photo</label>
+                        <input type="file" id="file">
+                        <p>jpg, png : 4mo max</p>
+                    </div>
+                    <div id="inputTitre">
+                        <label for="titrePicture">Titre</label>
+                        <input type="text" id="titrePicture">
+                    </div>
+                    <div id="inputCategorie">
+                        <label for="cars">Catégorie</label>
+                        <select name="cars" id="cars">
+                            <option value="objets">Objets</option>
+                            <option value="appartements">Appartements</option>
+                            <option value="hotelsRestaurants">Hotel & Restaurants</option>
+                        </select>
+                    </div>
+
+                    <div id="hr2"></div>
+                    <button id="validation">Valider</button>
+                </form>
+
+            </div>
         </div>
     </div>
     <main>

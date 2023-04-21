@@ -3,7 +3,9 @@ let galleryWork = document.querySelector(".gallery");
 
 let works = [];
 //Allez rechercher les travaux depuis l'API
-works = JSON.parse(localStorage.getItem("works"));
+let appel = await fetch("http://localhost:5678/api/works");
+let response = await appel.json();
+works = await response;
 
 //Fonction qui génère l'affichage de la gallerie
 function displayWorks(filtreCategorie) {
@@ -92,32 +94,6 @@ function displayIcon() {
 }
 displayIcon();
 
-//Function qui permet de supprimer un travail
-function removeWork() {
-  let trashAll = document.querySelectorAll(".trashStyle");
-  let divImgAll = document.querySelectorAll(".imgContainer");
-  let imgGalleryAll = document.querySelectorAll(".gallery figure");
-  for (let i = 0; i < trashAll.length; i++) {
-    trashAll[i].addEventListener("click", function (e) {
-      e.preventDefault();
-      let authentificationToken = JSON.parse(
-        localStorage.getItem("authentification")
-      ).token;
-      let options = {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${authentificationToken}`,
-        },
-      };
-      fetch(`http://localhost:5678/api/works/${i}`, options)
-        .then(divImgAll[i].remove())
-        .then(imgGalleryAll[i].remove());
-    });
-  }
-}
-removeWork();
-
 //Recuperation de la fleche precedente pour la navigation dans la modale
 let arrowBack = document.querySelector("#back");
 let modalContainer = document.querySelector("#modale-content-container");
@@ -135,32 +111,77 @@ addWork.addEventListener("click", function () {
   modal2.classList.add("visible");
 });
 
-//Requete POST
-let formSendWork = document.querySelector("#addWorkForm");
+//Function qui permet de supprimer un travail (DELETE)
+let imgGalleryAll = document.querySelectorAll(".gallery figure");
+let imgGalleryAllTab = Array.from(imgGalleryAll);
 
-formSendWork.addEventListener("submit", function (e) {
+for (let i = 0; i < imgGalleryAll.length; i++) {
+  imgGalleryAll[i].setAttribute("id", `imageGallery${i + 1}`);
+}
+let imgModalAll = document.querySelectorAll(".imgContainer");
+let imgModalAllTab = Array.from(imgGalleryAll);
+
+for (let i = 0; i < imgModalAll.length; i++) {
+  imgModalAll[i].setAttribute("id", `imageModal${i + 1}`);
+}
+
+let trashAll = document.querySelectorAll(".trashStyle");
+for (let i = 0; i < trashAll.length; i++) {
+  //Mettre un id à chaque corbeille
+  trashAll[i].setAttribute("id", `${i + 1}`);
+  trashAll[i].addEventListener("click", function (e) {
+    e.preventDefault();
+    let trashId = this.getAttribute("id");
+    console.log(trashId);
+
+    let tokenAuthentification = JSON.parse(
+      localStorage.getItem("authentification")
+    );
+    let optionsDelete = {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${tokenAuthentification.token}`,
+      },
+    };
+    fetch(`http://localhost:5678/api/works/${trashId}`, optionsDelete)
+      .then(imgGalleryAllTab.splice(`${trashId}`, 1))
+      .then(imgModalAllTab.splice(`${trashId}`, 1));
+  });
+}
+
+//Function qui permet d'ajouter un travail
+let formPostWork = document.querySelector("#addWorkForm");
+formPostWork.addEventListener("submit", function (e) {
   e.preventDefault();
   let inputFile = document.querySelector("#file");
-  let inputText = document.querySelector("#titrePicture");
-  let inputCategorie = document.querySelector("#categorie");
-  //Token pour s'identifier
-  let authentificationToken = JSON.parse(
-    localStorage.getItem("authentification")
-  ).token;
-  //Recuperation de tous les travaux
-  let allWorks = JSON.parse(localStorage.getItem("works"));
-  console.log(allWorks);
-  let options = {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${authentificationToken}`,
-    },
-    body: JSON.stringify(allWorks),
-  };
-  fetch("http://localhost:5678/api/works", options).then((res) => {
-    if (res.ok) {
-      console.log("ok");
-    }
-  });
+  let inputTitle = document.querySelector("#inputTitre");
+  let inputCategorie = document.querySelector("#inputCategorie");
+  if (
+    inputFile.value != "" &&
+    inputTitle.value != "" &&
+    inputCategorie.value != ""
+  ) {
+    let newWork = {
+      title: inputTitle.value,
+      categoryId: inputCategorie.value,
+      imageUrl: inputFile.value,
+    };
+    let newWorkString = JSON.stringify(newWork);
+
+    let tokenAuthentification = JSON.parse(
+      localStorage.getItem("authentification")
+    );
+    let optionsPost = {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${tokenAuthentification.token}`,
+      },
+      body: newWorkString,
+    };
+    fetch("http://localhost:5678/api/works", optionsPost);
+  } else {
+    alert("Veuillez remplir tous les champs");
+  }
 });

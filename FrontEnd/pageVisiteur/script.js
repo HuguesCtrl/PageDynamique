@@ -6,16 +6,9 @@ console.log(h2Projects);
 //Création d'un tableau intitulé works qui récupère tous les travaux de l'Api
 let works = [];
 //Allez rechercher les travaux de la gallerie via l'API et les stocker dans localStorage
-let localWorks = localStorage.getItem("works");
-if (localWorks === null) {
-  let appel = await fetch("http://localhost:5678/api/works");
-  let response = await appel.json();
-  let responseString = JSON.stringify(response);
-  localStorage.setItem("works", responseString);
-} else {
-  localWorks = JSON.parse(localWorks);
-  works = localWorks;
-}
+let appelWorks = await fetch("http://localhost:5678/api/works");
+let responseWorks = await appelWorks.json();
+works = await responseWorks;
 
 //Fonction qui génère l'affichage de la gallerie
 function displayWorks(filtreCategorie) {
@@ -35,17 +28,11 @@ displayWorks(works);
 
 //Création d'un tableau intitulé categories qui récupère toutes les catégories des travaux
 let categories = [];
-//Récupération de toutes les catégories de l'API que l'on stocke dans le LocalStorage
-let worksCategories = localStorage.getItem("categories");
-if (worksCategories === null) {
-  let appel = await fetch("http://localhost:5678/api/categories");
-  let response = await appel.json();
-  let responseString = JSON.stringify(response);
-  localStorage.setItem("categories", responseString);
-} else {
-  worksCategories = JSON.parse(worksCategories);
-  categories = worksCategories;
-}
+//Récupération de toutes les catégories de l'API
+let appelCategories = await fetch("http://localhost:5678/api/categories");
+let responseCategories = await appelCategories.json();
+categories = await responseCategories;
+
 //Création des différents boutons de la gallerie via le Javascript
 function createButton() {
   let divButton = document.createElement("div");

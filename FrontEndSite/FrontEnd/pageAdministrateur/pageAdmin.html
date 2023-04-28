@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sophie Bluel - Architecte d'intérieur - Administrateur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/FrontEnd/pageAdministrateur/pageAdmin.css">
+    <script src="/FrontEnd/pageAdministrateur/pageAdmin.js" type="module" defer></script>
+</head>
+
+<body>
+    <div id="editionMode">
+        <p><i class="fa-regular fa-pen-to-square"></i> Mode edition</p>
+        <button>publier les changements</button>
+    </div>
+    <header>
+        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        <nav>
+            <ul>
+                <li>projets</li>
+                <li>contact</li>
+                <li><a href="/index.html" id="logout">logout</a></li>
+                <li><img src="/FrontEnd/assets/icons/instagram.png" alt="Instagram" width="20px"></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="modale-container">
+        <div id="modale-overlay" class="modale-remove">
+        </div>
+        <div id="modale-content-container">
+            <!-- Modale pour retirer les photos -->
+            <div id="modale-content">
+                <h2>Galerie photo</h2>
+                <span id="cross" class="modale-remove"><i class="fa-solid fa-circle-xmark"></i></span>
+                <div id="list-works"></div>
+                <div id="hr"></div>
+                <button id="AddWork">Ajouter une photo</button>
+                <p id="delete-text">Supprimer la galerie</p>
+            </div>
+            <div id="modale-content-2">
+                <h2>Ajout photo</h2>
+                <span id="cross2" class="modale-remove"><i class="fa-solid fa-circle-xmark"></i></span>
+                <span id="back"><i class="fa-solid fa-arrow-left"></i></span>
+                <form id="addWorkForm" enctype="multipart/form-data">
+                    <div id="fileContainer">
+                        <span><i class="fa-regular fa-image"></i></span>
+                        <label for="file">+ Ajouter photo</label>
+                        <input type="file" id="file" name="file">
+                        <p id="imgUploadText">jpg, png : 4mo max</p>
+                    </div>
+                    <div id="inputTitre">
+                        <label for="titrePicture">Titre</label>
+                        <input type="text" id="title" name="title">
+                    </div>
+                    <div id="inputCategory">
+                        <label for="category">Catégorie</label>
+                        <select name="category" id="category">
+                            <option value="1">Objets</option>
+                            <option value="2">Appartements</option>
+                            <option value="3">Hotel & Restaurants</option>
+                        </select>
+                    </div>
+
+                    <div id="hr2"></div>
+                    <button id="validation">Valider</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <main>
+        <section id="introduction">
+            <figure>
+                <img src="/FrontEnd/assets/images/sophie-bluel.png" alt="">
+                <p id="edit-picture">
+                    <i class="fa-regular fa-pen-to-square"></i> Modifier
+                </p>
+            </figure>
+            <article>
+                <h2>Designer d'espace</h2>
+                <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+                <p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du
+                    détail, le respect du planning et du budget.</p>
+                <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+            </article>
+        </section>
+        <section id="portfolio">
+            <div id="edit">
+                <h2>Mes Projets</h2>
+                <p id="edit-gallery" class="modale-trigger">
+                    <i class="fa-regular fa-pen-to-square"></i> Modifier
+                </p>
+            </div>
+            <div class="gallery">
+                <!-- Ajout dynamique des travaux via le DOM -->
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Vous avez un projet ? Discutons-en !</p>
+            <form>
+                <label for="name">Nom</label>
+                <input type="text" name="name" id="name">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                <input type="submit" value="Envoyer">
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li>Mentions Légales</li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+
+</html>

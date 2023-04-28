@@ -1,0 +1,144 @@
+body {
+    font-family: 'Work Sans';
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FFFEF8;
+    padding: 0;
+    margin: 0;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0 50px 0;
+    width: 1140px;
+}
+
+
+h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Syne';
+    font-size: 22px;
+    font-weight: 800;
+    color: #B1663C
+}
+
+h1>span {
+    font-family: 'Work Sans';
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    margin-top: 5px;
+}
+
+h2 {
+    font-family: 'Syne';
+    font-weight: 700;
+    font-size: 30px;
+    color: #1D6154
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 20px;
+
+}
+
+nav li {
+    padding: 0 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: 0.2s all;
+}
+
+li:hover {
+    color: #B1663C;
+}
+
+
+#contact {
+    width: 400px;
+    margin: 50px auto 0;
+    flex-grow: 1;
+}
+
+#contact>* {
+    text-align: center;
+
+}
+
+#contact h2 {
+    margin-bottom: 0;
+}
+
+#contact form {
+    text-align: left;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#contact input {
+    height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    outline: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#contact label {
+    margin: 2em 0 1em 0;
+}
+
+#password {
+    text-decoration: underline;
+}
+
+#messageForm {
+    display: none;
+}
+
+#messageForm.active {
+    display: block;
+    color: red;
+    margin-bottom: 0;
+}
+
+input[type="submit"] {
+    font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    margin: 2em auto;
+    width: 180px;
+    text-align: center;
+    border-radius: 60px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+
+footer {
+    margin-left: auto;
+}
+
+footer p {
+    font-weight: 200;
+    margin-right: 100px;
+}

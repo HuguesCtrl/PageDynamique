@@ -3,9 +3,11 @@ let galleryWork = document.querySelector(".gallery");
 
 let works = [];
 //Allez rechercher les travaux depuis l'API
+
 let appel = await fetch("http://localhost:5678/api/works");
 let response = await appel.json();
 works = await response;
+console.log(works);
 
 //Fonction qui génère l'affichage de la gallerie
 function displayWorks(filtreCategorie) {
@@ -154,6 +156,27 @@ for (let i = 0; i < trashAll.length; i++) {
 let formPostWork = document.querySelector("#addWorkForm");
 let buttonValidation = document.querySelector("#validation");
 let inputFile = document.querySelector("#file");
+let inputTitle = document.querySelector("#title");
+let inputCategory = document.querySelector("#category");
+
+//Condition bouton vert
+
+window.addEventListener("load", function () {
+  inputFile.value = "";
+  inputTitle.value = "";
+});
+
+formPostWork.addEventListener("change", function () {
+  if (inputFile.value) {
+    if (inputFile.files[0] !== "" && inputTitle.value !== "") {
+      buttonValidation.style.backgroundColor = "#1D6154";
+      buttonValidation.innerText = "Champs valides";
+    }
+  }
+});
+
+console.log(inputTitle.value);
+console.log(inputFile.value);
 
 let fileContainer = document.querySelector("#fileContainer");
 let fileContainerSpan = document.querySelector("#fileContainer span");
@@ -161,15 +184,13 @@ let fileContainerLabel = document.querySelector("#fileContainer label");
 let imgUploadText = document.querySelector("#imgUploadText");
 
 //Ecoute de l'envois du formulaire
-formPostWork.addEventListener("submit", function (e) {
+formPostWork.addEventListener("submit", async function (e) {
   e.preventDefault();
-  let inputTitle = document.querySelector("#title").value;
-  let inputCategory = document.querySelector("#category").value;
 
   let workSend = new FormData();
   workSend.append("image", inputFile.files[0]);
-  workSend.append("title", inputTitle);
-  workSend.append("category", inputCategory);
+  workSend.append("title", inputTitle.value);
+  workSend.append("category", inputCategory.value);
   let imageSize = workSend.get("image").size;
   let imageType = workSend.get("image").type;
 
@@ -185,25 +206,79 @@ formPostWork.addEventListener("submit", function (e) {
   };
   if (
     (imageSize < 4e6 && imageType === "image/png") ||
-    imageType === "image/jpg"
+    imageType === "image/jpeg"
   ) {
-    fetch("http://localhost:5678/api/works", optionsPost)
-      .then((res) => {
-        if (res.ok) {
-          buttonValidation.innerText = "Projet ajouté";
-          buttonValidation.style.backgroundColor = "#1D6154";
-          setTimeout(() => {
-            buttonValidation.style.backgroundColor = null;
-            buttonValidation.innerText = "Valider";
-          }, 1000);
-        }
+    let postWorks = await fetch("http://localhost:5678/api/works", optionsPost);
+
+    //Second appel à l'api lors de la soumission du formulaire
+    let appelApi = await fetch("http://localhost:5678/api/works");
+    let responseAPI = await appelApi.json();
+    works = await responseAPI;
+    console.log(works);
+    addWorkGallery(
+      works[works.length - 1].imageUrl,
+      works[works.length - 1].title,
+      works[works.length - 1].id
+    );
+    addWorkModal(works[works.length - 1].imageUrl, works[works.length - 1].id);
+    console.log(trashAll);
+    //Supprimer de la modale et de la gallery et de l'api un projet ajouté au clic sur la corbeille
+    let trashWorksAdd = document.querySelectorAll(".trashStyle");
+    trashWorksAdd.forEach((trashSingle) =>
+      trashSingle.addEventListener("click", async function () {
+        let tokenAuthentification = JSON.parse(
+          localStorage.getItem("authentification")
+        );
+        let optionsDelete = {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${tokenAuthentification.token}`,
+          },
+        };
+        fetch(`http://localhost:5678/api/works/${this.id}`, optionsDelete)
+          .then(document.querySelector(`#imageModal${this.id}`).remove())
+          .then(document.querySelector(`#imageGallery${this.id}`).remove())
+          .then(
+            (addWork.style.backgroundColor = "#D65353"),
+            (addWork.style.borderColor = "#D65353"),
+            (addWork.innerText = "Projet supprimé"),
+            setTimeout(() => {
+              addWork.style.backgroundColor = null;
+              (addWork.style.borderColor = null),
+                (addWork.innerText = "Ajouter une photo");
+            }, 1000)
+          );
       })
-      .catch((err) => console.log(err + "Non"));
+    );
+
+    if (postWorks) {
+      modal2.classList.remove("visible");
+      modal1.classList.add("visible");
+      //Le bouton de validation redevient gris
+      buttonValidation.style.backgroundColor = null;
+      buttonValidation.innerText = "Valider";
+      //Le inputFile se vide et redevient normal sans l'image de previsualisation
+      // avec les labels et les messages affichés
+      inputFile.value = "";
+      inputTitle.value = "";
+      fileContainer.children[0].remove();
+      fileContainerSpan.style.display = "";
+      fileContainerLabel.style.display = "";
+      imgUploadText.style.display = "";
+      imgUploadText.style.color = "";
+      imgUploadText.innerText = "jpg, png : 4mo max";
+      fileContainer.style.padding = "";
+      fileContainer.style.height = "";
+    } else {
+      console.log("Echec du status");
+    }
   } else {
     console.log("Echec de l'envois");
   }
 });
 
+//
 inputFile.addEventListener("change", function () {
   let imgUpload = this.files[0];
   console.log(imgUpload);
@@ -211,15 +286,15 @@ inputFile.addEventListener("change", function () {
     (imgUpload.size < 4e6 && imgUpload.type === "image/png") ||
     imgUpload.type === "image/jpeg"
   ) {
-    imgUploadText.remove();
     let newImg = document.createElement("img");
     fileContainer.prepend(newImg);
     fileContainer.style.padding = 0;
     fileContainer.style.height = "200px";
     newImg.style.height = "100%";
     newImg.style.display = "block";
-    fileContainerSpan.remove();
-    fileContainerLabel.remove();
+    fileContainerSpan.style.display = "none";
+    imgUploadText.style.display = "none";
+    fileContainerLabel.style.display = "none";
     let fileReader = new FileReader();
     fileReader.onload = function (e) {
       newImg.setAttribute("src", e.target.result);
@@ -228,5 +303,56 @@ inputFile.addEventListener("change", function () {
   } else {
     imgUploadText.style.color = "red";
     imgUploadText.innerText = `Image 4Mo max / Format acceptés: Jpeg, Png`;
+    inputFile.value = "";
   }
 });
+
+//Ajouter la photo à la gallery
+function addWorkGallery(url, text, id) {
+  let newFigure = document.createElement("figure");
+  newFigure.setAttribute("id", `imageGallery${id}`);
+  let newImg = document.createElement("img");
+  newImg.src = `${url}`;
+  let newFigCaption = document.createElement("figcaption");
+  newFigCaption.innerText = text;
+  newFigure.append(newImg, newFigCaption);
+  galleryWork.append(newFigure);
+}
+
+//Ajouter la photo à la modale
+function addWorkModal(url, id) {
+  let newDiv = document.createElement("div");
+  newDiv.style.width = "18%";
+  newDiv.setAttribute("class", "imgContainer");
+  newDiv.setAttribute("id", `imageModal${id}`);
+  let newImg = document.createElement("img");
+  newImg.setAttribute("class", "imgWorks");
+  newImg.src = `${url}`;
+  let newPara = document.createElement("p");
+  newPara.innerText = "éditer";
+  newPara.style.color = "black";
+  newDiv.append(newImg);
+  newDiv.append(newPara);
+  listPicturesModal.append(newDiv);
+
+  //Creation des icones en position absolute
+  newDiv.style.position = "relative";
+  let trash = document.createElement("div");
+  trash.setAttribute("id", `${id}`);
+  trash.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+  trash.classList.add("trashStyle");
+  newDiv.append(trash);
+  //Le bouton move
+  let move;
+  newDiv.addEventListener("mouseenter", function () {
+    newDiv.style.position = "relative";
+    move = document.createElement("div");
+    move.innerHTML = `<i class="fa-solid fa-arrows-up-down-left-right"></i>`;
+    //Ajouter les boutons move et delete
+    move.classList.add("moveStyle");
+    newDiv.append(move);
+  });
+  newDiv.addEventListener("mouseleave", function () {
+    move.style.display = "none";
+  });
+}

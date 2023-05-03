@@ -136,7 +136,7 @@ table {
 
 /** end reset css**/
 body {
-    max-width: 1140px;
+    width: 100vw;
     margin: auto;
     font-family: 'Work Sans';
     font-size: 14px;
@@ -151,6 +151,7 @@ body {
     gap: 20px;
     color: white;
     padding: 10px;
+    width: 100%;
 }
 
 #editionMode button {
@@ -161,6 +162,11 @@ body {
     font-weight: 400;
     font-family: 'Work Sans';
     flex-basis: 200px;
+}
+
+#maxwidth {
+    max-width: 1140px;
+    margin: 0 auto;
 }
 
 header {
@@ -646,7 +652,12 @@ input[type="submit"] {
 footer nav ul {
     display: flex;
     justify-content: flex-end;
-    margin: 2em
+    margin: 2em;
+}
+
+footer nav ul li {
+    font-size: 1em;
+    font-weight: lighter;
 }
 
 button {

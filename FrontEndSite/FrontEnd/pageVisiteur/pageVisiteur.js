@@ -38,7 +38,7 @@ function createButton() {
   let divButton = document.createElement("div");
   divButton.setAttribute("class", "divButton");
   let createButton = document.createElement("button");
-  createButton.innerText = "Tout";
+  createButton.innerText = "Tous";
   createButton.setAttribute("id", "Bouton0");
   divButton.append(createButton);
   for (let i = 0; i < categories.length; i++) {

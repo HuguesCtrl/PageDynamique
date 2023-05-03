@@ -205,8 +205,14 @@ formPostWork.addEventListener("submit", async function (e) {
     body: workSend,
   };
   if (
-    (imageSize < 4e6 && imageType === "image/png") ||
-    imageType === "image/jpeg"
+    (inputTitle.value != "" &&
+      inputFile.files[0] != "" &&
+      imageSize < 4e6 &&
+      imageType === "image/png") ||
+    (inputTitle.value != "" &&
+      inputFile.files[0] != "" &&
+      imageSize < 4e6 &&
+      imageType === "image/jpeg")
   ) {
     let postWorks = await fetch("http://localhost:5678/api/works", optionsPost);
 
@@ -274,7 +280,9 @@ formPostWork.addEventListener("submit", async function (e) {
       console.log("Echec du status");
     }
   } else {
-    console.log("Echec de l'envois");
+    console.log(
+      "Tous les champs ne sont pas remplit ou l'image ne convient pas"
+    );
   }
 });
 

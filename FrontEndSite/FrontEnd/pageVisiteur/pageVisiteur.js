@@ -9,6 +9,7 @@ let works = [];
 let appelWorks = await fetch("http://localhost:5678/api/works");
 let responseWorks = await appelWorks.json();
 works = await responseWorks;
+console.log(works);
 
 //Fonction qui génère l'affichage de la gallerie
 function displayWorks(filtreCategorie) {

@@ -136,8 +136,8 @@ for (let i = 0; i < trashAll.length; i++) {
       },
     };
     fetch(`http://localhost:5678/api/works/${trashId}`, optionsDelete)
-      .then(document.querySelector(`#imageGallery${trashId}`))
-      .then(document.querySelector(`#imageModal${trashId}`))
+      .then(document.querySelector(`#imageGallery${trashId}`).remove())
+      .then(document.querySelector(`#imageModal${trashId}`).remove())
       .then(
         (addWork.style.backgroundColor = "#D65353"),
         (addWork.style.borderColor = "#D65353"),

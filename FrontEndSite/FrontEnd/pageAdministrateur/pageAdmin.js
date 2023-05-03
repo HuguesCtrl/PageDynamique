@@ -281,7 +281,7 @@ formPostWork.addEventListener("submit", async function (e) {
     }
   } else {
     console.log(
-      "Tous les champs ne sont pas remplit ou l'image ne convient pas"
+      "Tous les champs ne sont pas remplis ou l'image ne convient pas"
     );
   }
 });

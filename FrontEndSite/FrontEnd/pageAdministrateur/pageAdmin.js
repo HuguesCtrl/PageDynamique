@@ -137,17 +137,7 @@ for (let i = 0; i < trashAll.length; i++) {
     };
     fetch(`http://localhost:5678/api/works/${trashId}`, optionsDelete)
       .then(document.querySelector(`#imageGallery${trashId}`).remove())
-      .then(document.querySelector(`#imageModal${trashId}`).remove())
-      .then(
-        (addWork.style.backgroundColor = "#D65353"),
-        (addWork.style.borderColor = "#D65353"),
-        (addWork.innerText = "Projet supprimé"),
-        setTimeout(() => {
-          addWork.style.backgroundColor = null;
-          (addWork.style.borderColor = null),
-            (addWork.innerText = "Ajouter une photo");
-        }, 1000)
-      );
+      .then(document.querySelector(`#imageModal${trashId}`).remove());
   });
 }
 
@@ -244,17 +234,7 @@ formPostWork.addEventListener("submit", async function (e) {
         };
         fetch(`http://localhost:5678/api/works/${this.id}`, optionsDelete)
           .then(document.querySelector(`#imageModal${this.id}`).remove())
-          .then(document.querySelector(`#imageGallery${this.id}`).remove())
-          .then(
-            (addWork.style.backgroundColor = "#D65353"),
-            (addWork.style.borderColor = "#D65353"),
-            (addWork.innerText = "Projet supprimé"),
-            setTimeout(() => {
-              addWork.style.backgroundColor = null;
-              (addWork.style.borderColor = null),
-                (addWork.innerText = "Ajouter une photo");
-            }, 1000)
-          );
+          .then(document.querySelector(`#imageGallery${this.id}`).remove());
       })
     );
 

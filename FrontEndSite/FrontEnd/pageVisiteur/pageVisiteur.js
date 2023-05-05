@@ -58,6 +58,7 @@ createButton();
 let categorieObjets = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Objets"
 );
+console.log(categorieObjets);
 //Renvois la catégorie Appartement
 let categorieAppartements = works.filter(
   (filterCategorie) => filterCategorie.category.name === "Appartements"

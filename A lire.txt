@@ -1,0 +1,1 @@
+Pour empêcher le rechargement automatique de la page lors de l'ajout d'un projet il faut sortir le backEnd du dossier pour éviter que le liveServer actualise la page

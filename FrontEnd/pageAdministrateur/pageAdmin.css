@@ -481,6 +481,17 @@ li:hover {
     outline: none;
 }
 
+#errorText {
+    font-size: 0.9em;
+    margin: 0;
+    color: red;
+    display: none;
+}
+
+#errorText.activeText {
+    display: block;
+}
+
 #modale-content-2 form #inputCategory select {
     cursor: pointer;
 }

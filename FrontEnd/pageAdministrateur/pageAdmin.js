@@ -172,6 +172,7 @@ let fileContainer = document.querySelector("#fileContainer");
 let fileContainerSpan = document.querySelector("#fileContainer span");
 let fileContainerLabel = document.querySelector("#fileContainer label");
 let imgUploadText = document.querySelector("#imgUploadText");
+let errorText = document.querySelector("#errorText");
 
 //Ecoute de l'envois du formulaire
 formPostWork.addEventListener("submit", async function (e) {
@@ -256,17 +257,30 @@ formPostWork.addEventListener("submit", async function (e) {
       imgUploadText.innerText = "jpg, png : 4mo max";
       fileContainer.style.padding = "";
       fileContainer.style.height = "";
+      errorText.classList.remove("activeText");
     } else {
       console.log("Echec du status");
     }
   } else {
-    console.log(
-      "Tous les champs ne sont pas remplis ou l'image ne convient pas"
-    );
+    if (inputTitle.value == "") {
+      errorText.classList.add("activeText");
+    }
+    imgUploadText.innerText = "Image non ajoutée";
+    imgUploadText.style.color = "red";
   }
 });
 
-//
+//Erreur titre disparait
+inputTitle.addEventListener("input", function () {
+  if (inputTitle.value != "") {
+    errorText.classList.remove("activeText");
+  } else {
+    errorText.classList.add("activeText");
+    buttonValidation.style.backgroundColor = null;
+    buttonValidation.innerText = "Valider";
+  }
+});
+
 inputFile.addEventListener("change", function () {
   let imgUpload = this.files[0];
   console.log(imgUpload);

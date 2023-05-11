@@ -1,1 +1,2 @@
-Pour empêcher le rechargement automatique de la page lors de l'ajout d'un projet il faut sortir le backEnd du dossier pour éviter que le liveServer actualise la page
+- Il faut ouvrir le dossier FrontEnd dans VSCode les liens CSS sont des chemins relatifs
+- Pour empêcher le rechargement automatique de la page lors de l'ajout d'un projet il faut sortir le backEnd du dossier pour éviter que le liveServer actualise la page
